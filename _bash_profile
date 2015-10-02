@@ -1,0 +1,24 @@
+if [ -f $HOME/.bashrc ]
+then
+  . $HOME/.bashrc
+fi
+
+# Set-up keyring passwd manager for use with Subversion
+
+# If settings exist for the current host, re-use them
+export GNOME_KEYRING_SOCKET GNOME_KEYRING_PID SSH_AUTH_SOCK
+HOST_KEYRING_INFO=~/.subversion/.gnome-keyring-daemon-$(hostname)
+[ -e $HOST_KEYRING_INFO ] && source $HOST_KEYRING_INFO
+
+# Check existing socket and process ID of daemons
+# If anything is amiss, start new daemons and save the environment settings
+if [[ ! -S "$GNOME_KEYRING_SOCKET" || \
+        -z "$DBUS_SESSION_BUS_PID" || \
+        -z "$GNOME_KEYRING_PID" || \
+        -z "$(pgrep -u $(id -u) gnome-keyring | grep ^$GNOME_KEYRING_PID$)" || \
+        -z "$(pgrep -u $(id -u) dbus-daemon | grep ^$DBUS_SESSION_BUS_PID$)" ]]; then
+                gnome-keyring-daemon --daemonize > $HOST_KEYRING_INFO 2>/dev/null
+                dbus-launch --sh-syntax >> $HOST_KEYRING_INFO
+                source $HOST_KEYRING_INFO
+fi
+

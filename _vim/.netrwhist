@@ -1,0 +1,8 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_1='/designs/seaquest/alchen/trafodion/dcs/src/test/pytests.svn/.tox/py27'
+let g:netrw_dirhist_2='/designs/seaquest/alchen/trafodion/dcs/src/test/pytests.svn/.tox'
+let g:netrw_dirhist_3='/designs/seaquest/alchen/trafodion/dcs/src/test/pytests.svn/.tox/py27'
+let g:netrw_dirhist_4='/opt/home/alchen/trafodion/infra-config/modules/traf/manifests'
+let g:netrw_dirhist_5='/opt/home/alchen/trafodion/infra-config/modules/iptables/templates'
+let g:netrw_dirhist_6='/designs/seaquest/alchen/trafodion/infra-config/modules/github'

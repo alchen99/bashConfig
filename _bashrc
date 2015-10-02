@@ -1,0 +1,210 @@
+# set TERM to 256 color
+export TERM=xterm-256color
+
+# alias of machine
+export myMapAlias=`/home/tools/bin/alias-map`
+
+# set up timezone
+export TZ=US/Pacific
+
+# set up vi
+if [ -f /usr/bin/vim ]; then alias vi='/usr/bin/vim'; fi
+export EDITOR=vi
+set -o vi
+
+if [ -f /usr/bin/vimdiff ]; then alias vimdiff='/usr/bin/vimdiff -O '; fi
+
+# set LS colors
+export LS_COLORS="di=1:no=00:fi=00:di=01;44;96:ln=00;36:pi=40;33:so=00;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:mi=01;05;37;41:ex=00;32:*.cmd=00;32:*.exe=00;32:*.com=00;32:*.btm=00;32:*.bat=00;32:*.sh=00;32:*.csh=00;32:*.tar=00;31:*.tgz=00;31:*.arj=00;31:*.taz=00;31:*.lzh=00;31:*.zip=00;31:*.z=00;31:*.Z=00;31:*.gz=00;31:*.bz2=00;31:*.bz=00;31:*.tz=00;31:*.rpm=00;31:*.cpio=00;31:*.jpg=00;35:*.gif=00;35:*.bmp=00;35:*.xbm=00;35:*.xpm=00;35:*.png=00;35:*.tif=00;35:"
+
+# set up Git Info
+export GIT_AUTHOR_NAME="Alice Chen"
+export GIT_AUTHOR_EMAIL=""
+export GIT_COMMITTER_NAME="Alice Chen"
+export GIT_COMMITTER_EMAIL=""
+
+if [ -f  $HOME/bin/git-completion.bash ] ; then
+   source $HOME/bin/git-completion.bash
+fi
+
+# Provides __git_ps1.  See the script for documentation.
+if [ -f $HOME/bin/git-prompt.sh ]; then
+  source $HOME/bin/git-prompt.sh
+fi
+
+# A bunch of variables __git_ps1 pays attention
+GIT_PS1_SHOWDIRTYSTATE=x       ### * unstaged, + staged
+GIT_PS1_SHOWSTASHSTATE=x       ### $ something is stashed
+GIT_PS1_SHOWUNTRACKEDFILES=x   ### %  untracked files
+GIT_PS1_SHOWUPSTREAM=auto      ### <  branch is behind, > ahead, <> diverged, = no diff
+GIT_PS1_DESCRIBE_STYLE=branch  ### one of: contains, branch, describe, default
+GIT_PS1_SHOWCOLORHINTS=x
+if [ -f  $HOME/bin/git-prompt.sh ] ; then
+  # This sets the <user>@<hostname> <alias name> in the title bar
+  # And git branch info in the prompt.  Shell input is on its own separate line with just a dollar sign.
+  # Note: __git_ps1 sets PS1
+  export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*} (alias ${myMapAlias%%.*} )"; echo -ne "\007";__git_ps1 "${USER}@${HOSTNAME%%.*} [\[\033[1;34m\]${PWD}\[\033[0m\]]" "\n$ "'
+else
+  export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*} (alias ${myMapAlias%%.*} )"; echo -ne "\007"'
+  export PS1='${USER}@${HOSTNAME%%.*} [\[\033[1;34m\]${PWD}\[\033[0m\]]\n$ '
+fi
+
+
+# set up Subversion REPO
+export REPO=https://<SVN_SERVER>:<SVN_PORT>/svn
+
+# set up paths
+
+export JAVA_HOME=/opt/home/tools/jdk1.7.0_67
+  
+# enable gnome proxy
+export proxy_enabled="yes"
+export PROXY_ENABLED=$proxy_enabled
+export all_proxy="http://<PROXY_SERVER>:<PROXY_PORT>"
+export ftp_proxy=$all_proxy
+export http_proxy=$all_proxy
+export https_proxy=$all_proxy
+export rsync_proxy=$all_proxy
+export ALL_PROXY=$all_proxy
+export FTP_PROXY=$all_proxy
+export HTTP_PROXY=$all_proxy
+export HTTPS_PROXY=$all_proxy
+export RSYNC_PROXY=$all_proxy
+export no_proxy="localhost,127.0.0.1"
+
+# set up stuff for ElectricCommander
+export COMMANDER_SERVER=<COMMANDER_SERVER>
+if [[ -d /opt/electriccloud/electriccommander/bin ]]; then
+    export PATH=/opt/electriccloud/electriccommander/bin:$PATH
+    alias eclogin='ectool login "<USER_ID>" '
+    alias ectoola='ectool --user "<USER_ID>" '
+fi
+
+# set up aliases
+alias svndt='svn diff --diff-cmd=$HOME/bin/svndiff_helper'
+alias l.='ls -d .*'
+#alias ll='ls -l --color=tty'
+#alias ls='ls --color=tty'
+alias lt='ls -ltr'
+alias la='ls -al'
+
+alias diff='diff -W $(tput cols)'
+
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias grep='grep --color=auto'
+
+alias h='history'
+#alias psu='ps -u $USER -H'
+alias psu='ps -ef | grep $USER | grep -v SQMON | grep -v qpidd | grep -v metrics | grep -v seapilot | grep -v monitor'
+alias pso='ps -o pid,user,start,cputime,comm'
+alias psv='ps -e -o pid,user,rss,vsize,comm --sort=-vsize | more'
+alias psm='ps -e -o pid,user,rss,vsize,comm --sort=-rss | more'
+
+alias sshka='ssh -o "ServerAliveInterval 300" '
+alias testrlastcsv='testr last --subunit | subunit-1to2 | subunit2csv'
+alias testrlastalm='testr last --subunit | subunit-1to2 | subunit2alm'
+
+if [ -f /usr/bin/screen ]
+then
+  alias screendr='/usr/bin/screen -DR'
+else
+  alias screendr='$HOME/bin/screen -DR'
+fi
+
+export PS1='\u@\h \w > '
+ulimit -n 16384
+ulimit -c unlimited
+
+# don't put duplicate lines in the history. See bash(1) for more options
+export HISTCONTROL=ignoredups
+# ... and ignore same sucessive entries.
+export HISTCONTROL=ignoreboth
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# set umask so group has access
+umask 002
+
+# Create a function
+connectSqclientShare () {
+  shareBase="//fileshares.<DOMAIN>/<DIR>"
+  credFile="$HOME/fileshare.cfg"
+  echo "Running : smbclient -g $shareBase -A $credFile"
+  smbclient -g $shareBase -A $credFile
+}
+
+rgrep () {
+  if [ $# -ne 2 ]
+  then
+    echo "Usage: rgrep \"<file_name>\" \"<expression>\""
+    echo ""
+  else
+    find . -type d -not \( -name .svn -prune \) -o -name "$1" -exec grep "$2" {} /dev/null \;
+  fi
+}
+
+rgrepi () {
+  if [ $# -ne 2 ]
+  then
+    echo "Usage: rgrep \"<file_name>\" \"<expression>\""
+    echo ""
+  else
+    find . -type d -not \( -name .svn -prune \) -o -name "$1" -exec grep -i "$2" {} /dev/null \;
+  fi
+}
+
+rgrepv () {
+  if [ $# -ne 2 ]
+  then
+    echo "Usage: rgrepv \"<file_name>\" \"<expression>\""
+    echo ""
+  else
+    find . -type d -not \( -name .svn -prune \) -o -name "$1" -exec grep -v "$2" {} /dev/null \;
+  fi
+}
+
+rgrepf () {
+  if [ $# -ne 2 ]
+  then
+    echo "Usage: rgrepf \"<file_name>\" \"<expression>\""
+    echo ""
+  else
+    find . -type d -not \( -name .svn -prune \) -o -name "$1" -exec grep -l "$2" {} /dev/null \;
+  fi
+}
+
+rgrepvf () {
+  if [ $# -ne 2 ]
+  then
+    echo "Usage: rgrepvf \"<file_name>\" \"<expression>\""
+    echo ""
+  else
+    find . -type d -not \( -name .svn -prune \) -o -name "$1" -exec grep -L "$2" {} /dev/null \;
+  fi
+}
+
+delInode () {
+  if [ $# -ne 1 ]
+  then
+    echo "Usage: delInode \"<inode_number>\""
+    echo ""
+  else
+    find . -inum $1 -exec rm -i {} \;
+  fi
+}
+
+svnDelInode () {
+  if [ $# -ne 1 ]
+  then
+    echo "Usage: svnDelInode \"<inode_number>\""
+    echo ""
+  else
+    find . -inum $1 -exec svn del {} \;
+  fi
+}
+
+# personal variable to indicate what bash functions have been written
+export ZFUNCTIONS='connectSqclientShare rgrep rgrepv rgrepf rgrepvf delInode svnDelInode'

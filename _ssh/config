@@ -1,0 +1,19 @@
+Host review.openstack.org
+Hostname review.openstack.org
+Port 29418
+ProxyCommand /opt/home/tools/bin/corkscrew <SOME_PROXY> <PROXY_PORT> %h %p
+
+Host gittraf
+Hostname github.com
+User git
+IdentityFile ~/.ssh/Trafodion-Gerrit_rsa
+
+Host gitapache
+Hostname apache.org
+User alchen
+IdentityFile ~/.ssh/apache_rsa
+
+host *
+ServerAliveInterval 300
+TCPKeepAlive=yes
+NoHostAuthenticationForLocalhost=yes

@@ -1,0 +1,4 @@
+ectool createCredential "<EC_PROJECT>" "<CREDENTIAL_NAME>" --userName <USERNAME> --password SOMEPASSWORD
+ectool createAclEntry group "<EC_GROUP>" --projectName "$projShortName" --credentialName "$Resource" --readPrivilege allow --modifyPrivilege allow --executePrivilege allow --changePermissionsPrivilege allow
+ectool createAclEntry "user" "project: <EC_PROJECT>" --projectName "$projShortName" --credentialName "$Resource" --readPrivilege allow --modifyPrivilege allow --executePrivilege allow --changePermissionsPrivilege allow
+

@@ -1,0 +1,27 @@
+[user]
+	name = Alice Chen
+[core]
+    editor = vim
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+    ui = true
+[alias]
+    l = log -m --format=short --shortstat
+    ll = log -m --name-status
+    lg = log --graph --shortstat
+    st = status --short
+    su = status -uno
+    d = diff
+    dc = diff --cached
+    dt = difftool
+    dtc = difftool --cached
+    backup = push --mirror backup
+[diff]
+	tool = vimdiff
+[difftool]
+	prompt = false
+[http]
+	sslVerify = false
+	proxy = http://proxy.houston.hp.com:8080

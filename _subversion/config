@@ -1,0 +1,261 @@
+### This file configures various client-side behaviors.
+###
+### The commented-out examples below are intended to demonstrate
+### how to use this file.
+
+### Section for authentication and authorization customizations.
+[auth]
+### Set password stores used by Subversion. They should be
+### delimited by spaces or commas. The order of values determines
+### the order in which password stores are used.
+### Valid password stores:
+###   gnome-keyring        (Unix-like systems)
+###   kwallet              (Unix-like systems)
+###   keychain             (Mac OS X)
+###   windows-cryptoapi    (Windows)
+password-stores = gnome-keyring
+###
+### The rest of this section in this file has been deprecated.
+### Both 'store-passwords' and 'store-auth-creds' can now be
+### specified in the 'servers' file in your config directory.
+### Anything specified in this section is overridden by settings
+### specified in the 'servers' file.
+###
+### Set store-passwords to 'no' to avoid storing passwords in the
+### auth/ area of your config directory.  It defaults to 'yes',
+### but Subversion will never save your password to disk in
+### plaintext unless you tell it to (see the 'servers' file).
+### Note that this option only prevents saving of *new* passwords;
+### it doesn't invalidate existing passwords.  (To do that, remove
+### the cache files by hand as described in the Subversion book.)
+# store-passwords = no
+### Set store-auth-creds to 'no' to avoid storing any subversion
+### credentials in the auth/ area of your config directory.
+### It defaults to 'yes'.  Note that this option only prevents
+### saving of *new* credentials;  it doesn't invalidate existing
+### caches.  (To do that, remove the cache files by hand.)
+# store-auth-creds = no
+
+### Section for configuring external helper applications.
+[helpers]
+### Set editor-cmd to the command used to invoke your text editor.
+###   This will override the environment variables that Subversion
+###   examines by default to find this information ($EDITOR, 
+###   et al).
+# editor-cmd = editor (vi, emacs, notepad, etc.)
+### Set diff-cmd to the absolute path of your 'diff' program.
+###   This will override the compile-time default, which is to use
+###   Subversion's internal diff implementation.
+# diff-cmd = diff_program (diff, gdiff, etc.)
+### Set diff3-cmd to the absolute path of your 'diff3' program.
+###   This will override the compile-time default, which is to use
+###   Subversion's internal diff3 implementation.
+# diff3-cmd = diff3_program (diff3, gdiff3, etc.)
+### Set diff3-has-program-arg to 'yes' if your 'diff3' program
+###   accepts the '--diff-program' option.
+# diff3-has-program-arg = [yes | no]
+### Set merge-tool-cmd to the command used to invoke your external
+### merging tool of choice. Subversion will pass 4 arguments to
+### the specified command: base theirs mine merged
+# merge-tool-cmd = merge_command
+
+### Section for configuring tunnel agents.
+[tunnels]
+### Configure svn protocol tunnel schemes here.  By default, only
+### the 'ssh' scheme is defined.  You can define other schemes to
+### be used with 'svn+scheme://hostname/path' URLs.  A scheme
+### definition is simply a command, optionally prefixed by an
+### environment variable name which can override the command if it
+### is defined.  The command (or environment variable) may contain
+### arguments, using standard shell quoting for arguments with
+### spaces.  The command will be invoked as:
+###   <command> <hostname> svnserve -t
+### (If the URL includes a username, then the hostname will be
+### passed to the tunnel agent as <user>@<hostname>.)  If the
+### built-in ssh scheme were not predefined, it could be defined
+### as:
+# ssh = $SVN_SSH ssh -q
+### If you wanted to define a new 'rsh' scheme, to be used with
+### 'svn+rsh:' URLs, you could do so as follows:
+# rsh = rsh
+### Or, if you wanted to specify a full path and arguments:
+# rsh = /path/to/rsh -l myusername
+### On Windows, if you are specifying a full path to a command,
+### use a forward slash (/) or a paired backslash (\\) as the
+### path separator.  A single backslash will be treated as an
+### escape for the following character.
+
+### Section for configuring miscelleneous Subversion options.
+[miscellany]
+### Set global-ignores to a set of whitespace-delimited globs
+### which Subversion will ignore in its 'status' output, and
+### while importing or adding files and directories.
+### '*' matches leading dots, e.g. '*.rej' matches '.foo.rej'.
+global-ignores = *.o *.lo *.la *.al .libs *.so *.so.[0-9]* *.a
+   *.log *.log.old Linux-x86_64 depend.mk
+   *.pyc *.pyo *.rej *~ #*# .#* .*.swp .DS_Store
+   *.old *.orig
+
+### Set log-encoding to the default encoding for log messages
+# log-encoding = latin1
+### Set use-commit-times to make checkout/update/switch/revert
+### put last-committed timestamps on every file touched.
+# use-commit-times = yes
+### Set no-unlock to prevent 'svn commit' from automatically
+### releasing locks on files.
+# no-unlock = yes
+### Set mime-types-file to a MIME type registry file, used to
+### provide hints to Subversion's MIME type auto-detection
+### algorithm.
+# mime-types-file = /path/to/mime.types
+### Set preserved-conflict-file-exts to a whitespace-delimited
+### list of patterns matching file extensions which should be
+### preserved in generated conflict file names.  By default,
+### conflict files use custom extensions.
+# preserved-conflict-file-exts = doc ppt xls od?
+
+### Set enable-auto-props to 'yes' to enable automatic properties
+### for 'svn add' and 'svn import', it defaults to 'no'.
+### Automatic properties are defined in the section 'auto-props'.
+enable-auto-props = yes
+
+### Set interactive-conflicts to 'no' to disable interactive
+### conflict resolution prompting.  It defaults to 'yes'.
+# interactive-conflicts = no
+
+### Section for configuring automatic properties.
+[auto-props]
+### The format of the entries is:
+###   file-name-pattern = propname[=value][;propname[=value]...]
+### The file-name-pattern can contain wildcards (such as '*' and
+### '?').  All entries which match (case-insensitively) will be
+### applied to the file.  Note that auto-props functionality
+### must be enabled, which is typically done by setting the
+### 'enable-auto-props' option.
+
+CHANGES = svn:mime-type=text/plain; svn:eol-style=native 
+COPYING = svn:mime-type=text/plain; svn:eol-style=native 
+INSTALL = svn:mime-type=text/plain; svn:eol-style=native 
+LICENSE = svn:mime-type=text/plain; svn:eol-style=native 
+TODO = svn:mime-type=text/plain; svn:eol-style=native 
+README = svn:mime-type=text/plain; svn:eol-style=native 
+README.* = svn:mime-type=text/plain; svn:eol-style=native 
+readme.* = svn:mime-type=text/plain; svn:eol-style=native 
+
+?akefile = svn:mime-type=text/plain; svn:eol-style=native
+MXODSN = svn:mime-type=text/plain; svn:eol-style=native
+testunit = svn:mime-type=text/plain; svn:eol-style=native
+testcase = svn:mime-type=text/plain; svn:eol-style=native
+defvars = svn:mime-type=text/plain; svn:eol-style=native
+cleanup = svn:mime-type=text/plain; svn:eol-style=native;svn:executable
+setup = svn:mime-type=text/plain; svn:eol-style=native;svn:executable
+*_setup = svn:mime-type=text/plain; svn:eol-style=native;svn:executable
+USRACC_* = svn:mime-type=text/plain; svn:eol-style=native
+hpt4jdbc.properties.* = svn:mime-type=text/plain; svn:eol-style=native
+r_* = svn:mime-type=text/plain; svn:eol-style=native;svn:executable
+*_reg* = svn:mime-type=text/plain; svn:eol-style=native;svn:executable
+*.exp = svn:mime-type=text/plain; svn:eol-style=native
+*exp = svn:mime-type=text/plain; svn:eol-style=native
+*.mxci = svn:mime-type=text/plain; svn:eol-style=native
+*.dat = svn:eol-style=native
+*.qc = svn:mime-type=text/plain; svn:eol-style=native 
+*.alm = svn:mime-type=text/plain; svn:eol-style=native 
+*.sum = svn:mime-type=text/plain; svn:eol-style=native 
+
+*.au3 = svn:eol-style=CRLF;svn:mime-type=text/plain
+*.awk = svn:eol-style=native;svn:mime-type=text/plain
+*.bat = svn:mime-type=text/plain;svn:eol-style=CRLF;svn:executable
+*.bin = svn:mime-type=application/octet-stream;svn:needs-lock
+*.bmp = svn:mime-type=image/bmp;svn:needs-lock
+*.bz2 = svn:mime-type=application/x-bzip2;svn:needs-lock
+*.c = svn:eol-style=native;svn:mime-type=text/plain
+*.cf = svn:eol-style=native
+*.class = svn:mime-type=application/java;svn:needs-lock
+*.cmd = svn:mime-type=application/bat;svn:eol-style=CRLF;svn:executable
+*.cpp = svn:eol-style=native
+*.css = svn:mime-type=text/css;svn:eol-style=native
+*.csv = svn:eol-style=native
+*.ddl = svn:eol-style=native
+*.doc = svn:needs-lock;svn:mime-type=application/msword
+*.docm = svn:needs-lock;svn:mime-type=application/vnd.ms-word.document.macroEnabled.12
+*.docx = svn:needs-lock;svn:mime-type=application/vnd.openxmlformats-officedocument.wordprocessingml.document
+*.dotm = svn:needs-lock;svn:mime-type=application/vnd.ms-word.template.macroEnabled.12
+*.dotx = svn:needs-lock;svn:mime-type=application/vnd.openxmlformats-officedocument.wordprocessingml.template
+*.dsp = svn:eol-style=CRLF
+*.dsw = svn:eol-style=CRLF
+*.dtd = svn:mime-type=text/plain;svn:eol-style=native
+*.ent = svn:mime-type=text/plain;svn:eol-style=native
+*.exe = svn:mime-type=application/octet-stream;svn:needs-lock
+*.gif = svn:mime-type=image/gif;svn:needs-lock
+*.gz = svn:mime-type=application/x-gzip;svn:needs-lock
+*.h = svn:eol-style=native
+*.htm = svn:eol-style=native;svn:mime-type=text/html
+*.html = svn:eol-style=native;svn:mime-type=text/html
+*.jar = svn:mime-type=application/java-archive;svn:needs-lock
+*.java = svn:eol-style=native;svn:mime-type=text/x-java-source
+*.jpg = svn:mime-type=image/jpeg;svn:needs-lock
+*.jpeg = svn:mime-type=image/jpeg;svn:needs-lock
+*.js = svn:eol-style=native;svn:mime-type=text/javascript
+*.jsp = svn:mime-type=text/plain;svn:eol-style=native
+*.ksh = svn:mime-type=text/x-sh; svn:eol-style=native; svn:executable
+*.mdb = svn:needs-lock;svn:mime-type=application/x-msaccess
+*.mpp = svn:needs-lock;svn:mime-type=vnd.ms-project
+*.obj = svn:mime-type=application/octet-stream;svn:needs-lock
+*.out = svn:eol-style=native
+*.pdf = svn:mime-type=application/pdf;svn:needs-lock
+*.perl = svn:eol-style=native;svn:executable;svn:mime-type=text/x-perl
+*.php = svn:mime-type=text/php; svn:eol-style=native; svn:executable
+*.php3 = svn:mime-type=text/php; svn:eol-style=native; svn:executable
+*.pl = svn:eol-style=native;svn:executable;svn:mime-type=text/x-perl
+*.pm = svn:eol-style=native;svn:mime-type=text/x-perl
+*.png = svn:mime-type=image/png;svn:needs-lock
+*.pot = svn:needs-lock;svn:mime-type=application/vnd.ms-powerpoint
+*.ppsm = svn:needs-lock;svn:mime-type=application/vnd.ms-powerpoint.slideshow.macroEnabled.12
+*.ppsx = svn:needs-lock;svn:mime-type=application/vnd.openxmlformats-officedocument.presentationml.slideshow
+*.pps = svn:needs-lock;svn:mime-type=application/vnd.ms-powerpoint
+*.ppt = svn:needs-lock;svn:mime-type=application/vnd.ms-powerpoint
+*.pptm = svn:needs-lock;svn:mime-type=application/vnd.ms-powerpoint.presentation.macroEnabled.12
+*.pptx = svn:needs-lock;svn:mime-type=application/vnd.openxmlformats-officedocument.presentationml.presentation
+*.properties = svn:mime-type=text/plain;svn:eol-style=native
+*.ps = svn:mime-type=application/postscript
+*.py = svn:mime-type=text/x-python; svn:eol-style=native; svn:executable
+*.pyw = svn:mime-type=text/x-python; svn:eol-style=native
+*.pyx = svn:mime-type=text/x-python; svn:eol-style=native
+*.reg = svn:eol-style=CRLF;svn:mime-type=text/plain
+*.rst = svn:mime-type=text/plain;svn:eol-style=native
+*.rtf = svn:mime-type=application/rtf;svn:needs-lock
+*.sed = svn:eol-style=native
+*.sh = svn:mime-type=text/x-sh; svn:eol-style=native; svn:executable
+*.sql = svn:eol-style=native;svn:mime-type=text/plain
+*.tar = svn:mime-type=application/x-tar;svn:needs-lock
+*.tcl = svn:eol-style=native
+*.text = svn:eol-style=native
+*.tgz = svn:mime-type=application/x-compressed;svn:needs-lock
+*.tif = svn:mime-type=image/tiff;svn:needs-lock
+*.tiff = svn:mime-type=image/tiff;svn:needs-lock
+*.tmpl = svn:mime-type=text/plain;svn:eol-style=native
+*.txt = svn:mime-type=text/plain;svn:eol-style=native
+*.xla = svn:needs-lock;svn:mime-type=application/vnd.ms-excel
+*.xlc = svn:needs-lock;svn:mime-type=application/vnd.ms-excel
+*.xll = svn:needs-lock;svn:mime-type=application/vnd.ms-excel
+*.xlm = svn:needs-lock;svn:mime-type=application/vnd.ms-excel
+*.xls = svn:needs-lock;svn:mime-type=application/vnd.ms-excel
+*.xlsb = svn:needs-lock;svn:mime-type=application/vnd.ms-excel.sheet.binary.macroEnabled.12
+*.xlsm = svn:needs-lock;svn:mime-type=application/vnd.ms-excel.sheet.macroEnabled.12
+*.xlsx = svn:needs-lock;svn:mime-type=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+*.xlt = svn:needs-lock;svn:mime-type=application/vnd.ms-excel
+*.xlw = svn:needs-lock;svn:mime-type=application/vnd.ms-excel
+*.xsd = svn:mime-type=text/xml;svn:eol-style=native
+*.xsl = svn:eol-style=native;svn:mime-type=text/xml
+*.xslt = svn:eol-style=native;svn:mime-type=text/xml
+*.xml = svn:eol-style=native;svn:mime-type=text/xml
+*.xps = svn:needs-lock;svn:mime-type=application/vnd.ms-xpsdocument
+*.vcproj = svn:eol-style=CRLF
+*.vb = svn:eol-style=native
+*.vpj = svn:mime-type=text/xml;svn:eol-style=native
+*.vpw = svn:mime-type=text/xml;svn:eol-style=native
+*.vsl = svn:mime-type=text/plain;svn:eol-style=native
+*.vtg = svn:needs-lock;svn:mime-type=application/octet-stream;svn:executable
+*.wsdl = svn:mime-type=text/xml;svn:eol-style=native
+*.zip = svn:mime-type=application/zip;svn:needs-lock
+
