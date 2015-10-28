@@ -1,0 +1,3 @@
+https-proxy=http://<SOME_PROXY>:<SOME_PORT>
+http-proxy=http://<SOME_PROXY>:<SOME_PORT>
+strict-ssl=false
