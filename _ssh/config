@@ -1,7 +1,7 @@
 Host review.openstack.org
 Hostname review.openstack.org
 Port 29418
-ProxyCommand /opt/home/tools/bin/corkscrew <SOME_PROXY> <PROXY_PORT> %h %p
+ProxyCommand /usr/bin/corkscrew <SOME_PROXY> <PROXY_PORT> %h %p
 
 Host gittraf
 Hostname github.com
