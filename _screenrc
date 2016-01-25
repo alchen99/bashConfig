@@ -49,6 +49,10 @@ hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{=kw}%?%-Lw%?%{r}(%{W}%n*%f %t%?(%u
 # Display $USER and screen titles in a neat way :P
 #caption always "%{=b dy}{ %{= dm}${USER} %{=b dy}}%={ %?%{= dc}%-Lw%?%{+b dy}(%{-b r}%n:%t%{+b dy})%?(%u)%?%{-dc}%?%{= dc}%+Lw%? %{=b dy}}"
 
+# Do not change the width back to 80 characters on startup
+termcap xterm* 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
+terminfo xterm* 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
+
 
 #------------------------------------
 # Bind keys
